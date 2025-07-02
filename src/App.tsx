@@ -1,5 +1,5 @@
 import { RouterProvider } from "react-router";
-import { useMyInfoQuery } from "./hooks/auth/useAuth";
+// import { useMyInfoQuery } from "./hooks/auth/useAuth";
 import { router } from "./pages/routes/router";
 import { enableMapSet } from "immer";
 import { socketClient } from "./libs/socket/socketClient";

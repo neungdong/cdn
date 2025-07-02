@@ -1,4 +1,3 @@
-
 // import { useEffect, useState } from 'react';
 // import type {
 //   ChatMessageReceivedEvent,
@@ -68,7 +67,7 @@
 
 //   const handleTypingStatus = ({
 //     isTyping,
-    
+
 //     senderId,
 //   }: TypingStatusChangedEvent) => {
 //     setTypingUserIds((prev) => {
@@ -148,21 +147,21 @@
 
 // export default ChatRoomView;
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type {
   ChatMessageReceivedEvent,
   TypingStatusChangedEvent,
-} from '../../../hooks/socket/types';
-import useChatMessageSocket from '../../../hooks/socket/useChatMessageSocket';
-import useChatTypingStatusSocket from '../../../hooks/socket/useChatTypingStatusSocket';
-import TypingIndicator from './TypingIndicator';
-import MessageInput from './MessageInput';
-import useUpdateEffect from '../../../hooks/useUpdateEffect';
-import useChatMessagesCursorInfiniteQuery from '../../../hooks/chat/useChatMessagesCursorInfiniteQuery';
-import useGetChatRoomOverview from '../../../hooks/chat/useGetChatRoomOverview';
-import { formatRelativeDate } from '../../../libs/utils/dateUtils';
-import useIntersectionObserver from '../../../hooks/useIntersectionObserver';
-import useChatRoomParticipantInfo from '../../../hooks/chat/useChatRoomParticipantInfo';
+} from "../../../hooks/socket/types";
+import useChatMessageSocket from "../../../hooks/socket/useChatMessageSocket";
+import useChatTypingStatusSocket from "../../../hooks/socket/useChatTypingStatusSocket";
+import TypingIndicator from "./TypingIndicator";
+import MessageInput from "./MessageInput";
+import useUpdateEffect from "../../../hooks/useUpdateEffect";
+import useChatMessagesCursorInfiniteQuery from "../../../hooks/chat/useChatMessagesCursorInfiniteQuery";
+import useGetChatRoomOverview from "../../../hooks/chat/useGetChatRoomOverview";
+import { formatRelativeDate } from "../../../libs/utils/dateUtils";
+import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
+import useChatRoomParticipantInfo from "../../../hooks/chat/useChatRoomParticipantInfo";
 
 interface ChatRoomViewProps {
   selectedChatRoom: { id: string; name: string };
@@ -170,7 +169,7 @@ interface ChatRoomViewProps {
 
 const ChatRoomView = ({ selectedChatRoom }: ChatRoomViewProps) => {
   const [messages, setMessages] = useState<ChatMessageReceivedEvent[]>([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [typingUserIds, setTypingUserIds] = useState<Set<string>>(new Set());
 
   const { data: initialData } = useGetChatRoomOverview({
@@ -197,7 +196,7 @@ const ChatRoomView = ({ selectedChatRoom }: ChatRoomViewProps) => {
   useEffect(() => {
     setMessages([]);
     setTypingUserIds(new Set());
-    setInput('');
+    setInput("");
 
     if (initialData?.messages?.length) {
       setMessages(initialData.messages);
@@ -216,10 +215,7 @@ const ChatRoomView = ({ selectedChatRoom }: ChatRoomViewProps) => {
     setMessages((prev) => [...prev, message]);
   };
 
-  const handleTypingStatus = ({
-    isTyping,
-    senderId,
-  }: TypingStatusChangedEvent) => {
+  const handleTypingStatus = ({ isTyping, senderId }: TypingStatusChangedEvent) => {
     setTypingUserIds((prev) => {
       const updated = new Set(prev);
 
@@ -230,19 +226,13 @@ const ChatRoomView = ({ selectedChatRoom }: ChatRoomViewProps) => {
     });
   };
 
-  const { sendChatMessage } = useChatMessageSocket(
-    selectedChatRoom.id,
-    handleSendChatMessage
-  );
-  const { sendTypingStatus } = useChatTypingStatusSocket(
-    selectedChatRoom.id,
-    handleTypingStatus
-  );
+  const { sendChatMessage } = useChatMessageSocket(selectedChatRoom.id, handleSendChatMessage);
+  const { sendTypingStatus } = useChatTypingStatusSocket(selectedChatRoom.id, handleTypingStatus);
 
   const sendMessage = () => {
     if (!input.trim()) return;
     sendChatMessage({ content: input, chatRoomId: selectedChatRoom.id });
-    setInput('');
+    setInput("");
   };
 
   useUpdateEffect(() => {
@@ -279,33 +269,27 @@ const ChatRoomView = ({ selectedChatRoom }: ChatRoomViewProps) => {
   const topRef = useIntersectionObserver({
     onIntersect: () => {
       if (hasPreviousPage && !isFetchingPreviousPage) {
-        console.log('Fetching previous page...');
+        console.log("Fetching previous page...");
         prepareForAppendTop();
         fetchPreviousPage();
       }
     },
-    hasNextPage: hasPreviousPage,
     threshold: 0.5,
-    delayMs: 300,
   });
 
   const bottomRef = useIntersectionObserver({
     onIntersect: () => {
       if (hasNextPage && !isFetchingNextPage) {
-        console.log('Fetching next page...');
+        console.log("Fetching next page...");
         fetchNextPage();
       }
     },
-    hasNextPage: hasNextPage,
     threshold: 0.5,
-    delayMs: 300,
   });
 
   return (
     <div className="w-full mx-auto p-4 bg-white shadow rounded-lg h-full flex flex-col">
-      <h2 className="text-xl font-semibold mb-4">
-        채팅방 - {selectedChatRoom.name}
-      </h2>
+      <h2 className="text-xl font-semibold mb-4">채팅방 - {selectedChatRoom.name}</h2>
       <div
         ref={containerRef}
         className="min-h-[400px] max-h-[400px] overflow-y-auto border border-gray-300 rounded p-4 mb-4 space-y-2 bg-gray-50"
@@ -315,7 +299,7 @@ const ChatRoomView = ({ selectedChatRoom }: ChatRoomViewProps) => {
         {[...messages].map((msg) =>
           renderMessage({
             msg,
-            username: getParticipantById(msg.senderId)?.username || 'Unknown',
+            username: getParticipantById(msg.senderId)?.username || "Unknown",
           })
         )}
 
@@ -327,17 +311,11 @@ const ChatRoomView = ({ selectedChatRoom }: ChatRoomViewProps) => {
   );
 };
 
-const renderMessage = ({
-  msg,
-  username,
-}: {
-  msg: ChatMessageReceivedEvent;
-  username: string;
-}) => {
+const renderMessage = ({ msg, username }: { msg: ChatMessageReceivedEvent; username: string }) => {
   const time = formatRelativeDate(msg.sentAt);
 
   switch (msg.messageType) {
-    case 'TEXT':
+    case "TEXT":
       return (
         <li
           key={msg.id}
@@ -347,18 +325,13 @@ const renderMessage = ({
             <span className="font-bold text-blue-600">{username}:</span>
             <span className="text-gray-800">{msg.content}</span>
           </div>
-          <span className="text-xs text-gray-400 ml-2 whitespace-nowrap">
-            {time}
-          </span>
+          <span className="text-xs text-gray-400 ml-2 whitespace-nowrap">{time}</span>
         </li>
       );
 
-    case 'SYSTEM':
+    case "SYSTEM":
       return (
-        <li
-          key={msg.id}
-          className="text-center text-sm text-gray-500 italic py-1"
-        >
+        <li key={msg.id} className="text-center text-sm text-gray-500 italic py-1">
           📢 {msg.content}
           <span className="text-xs text-gray-400 ml-1">({time})</span>
         </li>

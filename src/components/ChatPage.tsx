@@ -79,7 +79,6 @@
 // export default ChatPage;
 import React, { useEffect, useRef, useState } from 'react';
 import { apiV1Client } from '../libs/api/apiClient';
-import axios from 'axios';
 
 const ChatPage = () => {
   const [messages, setMessages] = useState<string[]>([]);

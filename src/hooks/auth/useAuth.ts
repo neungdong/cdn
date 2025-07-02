@@ -30,7 +30,7 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: async (request: LoginRequest) => {
-      const response = await AuthApi.login(request);
+      const response = await AuthApi.login(request) as unknown as { code: number; message?: string; [key: string]: unknown };
       if (response.code !== 20000) {
         throw new Error(response.message || '로그인 실패');
       }

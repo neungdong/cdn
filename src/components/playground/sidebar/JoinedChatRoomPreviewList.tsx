@@ -38,7 +38,14 @@ const JoinedChatRoomPreviewList = () => {
 
   useSseListener(
     SseEvent.JOINED_CHAT_ROOMS_PREVIEW_UPDATED,
-    handleOnMessageReceived
+    (data: string) => {
+      try {
+        const message: JoinedChatRoomPreviewUpdatedEvent = JSON.parse(data);
+        handleOnMessageReceived(message);
+      } catch (e) {
+        console.error('Failed to parse SSE data:', e);
+      }
+    }
   );
 
   return (

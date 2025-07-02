@@ -6,9 +6,7 @@ import PublicOnlyRoute from "./PublicOnlyRoute";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "../NotFoundPage";
 import StreamingDemoPage from "../StreamingDemoPage";
-import ChatBot from "../ChatBot";
 import DiaryInputForm from "../../components/DiaryInputForm"; // 경로 주의!
-import ChatRoom from "../../components/ChatRoom";
 import ChatPage from "../../components/ChatPage";
 
 export const router = createBrowserRouter([
@@ -28,19 +26,11 @@ export const router = createBrowserRouter([
         element: <ChatPage />,
       },
       {
-        path: "/chatbot",
-        element: <ChatBot />,
-      },
-      {
-        path: "/chatroom",
-        element: <ChatRoom />,
-      },
-       {
         path: "/playground",
         element: <PlaygroundPage />,
       },
       {
-        path: "/str", 
+        path: "/str",
         element: <StreamingDemoPage />,
       },
     ],
@@ -52,7 +42,6 @@ export const router = createBrowserRouter([
         path: "/summery",
         element: <DiaryInputForm />,
       },
- 
     ],
   },
   {
