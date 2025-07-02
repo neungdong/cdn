@@ -1,0 +1,32 @@
+#!/bin/bash
+
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+# 숫자만 추출하도록 정규식 수정 (숫자 연속 패턴)
+ISSUE_NUMBER_IN_BRANCH_NAME=$(echo $BRANCH_NAME | grep -o '[0-9]\+')
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG_HEAD=$(head -n1 $COMMIT_MSG_FILE)
+COMMIT_MSG_BODY=$(tail -n+2 $COMMIT_MSG_FILE)
+
+# Error 1 : main, dev, deploy가 아니면서 숫자(이슈번호) 없으면 에러
+if [[ $BRANCH_NAME != "main" && $BRANCH_NAME != "dev" && $BRANCH_NAME != "deploy" && -z $ISSUE_NUMBER_IN_BRANCH_NAME ]]; then
+  echo "ERROR: Branch name must be 'main' or 'dev' or 'branch-name-with-issue-number (숫자 포함)'"
+  exit 1
+fi
+
+# Error 2 : Commit 메시지에 '#숫자' 포함하면 에러 (기존 조건 유지)
+if [[ $(grep -c '#[0-9]' $COMMIT_MSG_FILE) -gt 0 ]]; then
+  echo "ERROR: Commit message cannot contain '#<number>'"
+  exit 1
+fi
+
+# Success : commit message에 이슈 번호 추가
+if [[ -n $ISSUE_NUMBER_IN_BRANCH_NAME ]]; then
+  echo "$COMMIT_MSG_HEAD #${ISSUE_NUMBER_IN_BRANCH_NAME}" > $COMMIT_MSG_FILE
+else
+  echo "$COMMIT_MSG_HEAD" > $COMMIT_MSG_FILE
+fi
+
+if [[ -n $COMMIT_MSG_BODY ]]; then
+  echo "$COMMIT_MSG_BODY" >> $COMMIT_MSG_FILE
+fi

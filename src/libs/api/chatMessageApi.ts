@@ -1,7 +1,7 @@
-import type { MessageType } from '../../hooks/socket/types';
-import { apiV1Client } from './apiClient';
-import { handleAPIResponse } from './apiUtils';
-import type { ApiResponse } from './response/apiResponse';
+import type { MessageType } from "../../hooks/socket/types";
+import { apiV1Client } from "./apiClient";
+import { handleAPIResponse } from "./apiUtils";
+import type { ApiResponse } from "./response/apiResponse";
 
 export const ChatMessageApi = {
   getChatMessages: async ({
@@ -28,7 +28,7 @@ export const ChatMessageApi = {
 export interface ChatMessagesCursorRequest {
   chatRoomId: string;
   size?: number;
-  direction: 'NEXT' | 'PREV';
+  direction: "NEXT" | "PREV";
   cursorMessageId: string;
 }
 

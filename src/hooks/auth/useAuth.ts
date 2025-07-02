@@ -30,7 +30,11 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: async (request: LoginRequest) => {
-      await AuthApi.login(request);
+      const response = await AuthApi.login(request);
+      if (response.code !== 20000) {
+        throw new Error(response.message || '로그인 실패');
+      }
+      return response;
     },
     onSuccess: async () => {
       await queryClient.refetchQueries({ queryKey: [MY_INFO_QUERY_KEY] });
@@ -38,6 +42,7 @@ export const useLogin = () => {
     },
   });
 };
+
 
 export const useLogout = () => {
   const queryClient = useQueryClient();

@@ -10,8 +10,14 @@ export const MemberApi = {
   },
 };
 
+// export interface MemberInfoResponse {
+//   id: string;
+//   username: string;
+//   createdAt: string;
+// }
 export interface MemberInfoResponse {
   id: string;
-  username: string;
+  email: string;
+  nickname: string;
   createdAt: string;
 }

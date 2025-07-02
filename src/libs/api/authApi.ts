@@ -22,12 +22,23 @@ export const AuthApi = {
   },
 };
 
+// export interface LoginRequest {
+//   username: string;
+//   password: string;
+// }
+
+// export interface RegisterRequest {
+//   username: string;
+//   password: string;
+// }
+
 export interface LoginRequest {
-  username: string;
+  memberId: string;
   password: string;
 }
 
 export interface RegisterRequest {
-  username: string;
+  memberId: string;
+  nickname: string;
   password: string;
 }

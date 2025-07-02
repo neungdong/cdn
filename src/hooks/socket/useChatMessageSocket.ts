@@ -1,3 +1,4 @@
+//소켓
 import { SOCKET_PATHS } from './socketPaths';
 import type { ChatMessageReceivedEvent, ChatMessageSendRequest } from './types';
 import useSocket from './useSocket';

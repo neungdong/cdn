@@ -28,7 +28,7 @@ const Navbar = () => {
           {isLoggedIn && user ? (
             <>
               <span className="text-sm">
-                안녕하세요, <strong>{user.username}</strong>님
+                안녕하세요, <strong>{user.nickname}</strong>님
               </span>
               <button
                 onClick={handleLogout}

@@ -7,13 +7,14 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const login = useLogin();
 
-  const [username, setUsername] = useState('');
+  // const [username, setUsername] = useState('');
+  const [memberId, setMemberId] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
     login.mutate(
-      { username, password },
+      { memberId, password },
       {
         onSuccess: () => {
           navigate('/');
@@ -36,16 +37,16 @@ const LoginPage = () => {
           <form onSubmit={handleLogin} className="mt-8 space-y-6">
             <div>
               <label
-                htmlFor="username"
+                htmlFor="memberId"
                 className="block text-sm font-medium text-gray-700"
               >
                 사용자 이름
               </label>
               <input
                 type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="memberId"
+                value={memberId}
+                onChange={(e) => setMemberId(e.target.value)}
                 required
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />

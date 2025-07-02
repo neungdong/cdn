@@ -1,6 +1,7 @@
-import { Client, type StompSubscription } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
-import { SOCKET_URL } from '../../hooks/socket/socketPaths';
+//소켓
+import { Client, type StompSubscription } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
+import { SOCKET_URL } from "../../hooks/socket/socketPaths";
 
 interface SocketSubscriptions {
   [topic: string]: {
@@ -42,15 +43,15 @@ class SocketClient {
       reconnectDelay: this.config.reconnectDelay,
       debug: (msg) => {
         if (this.config.debug) {
-          console.log('[STOMP] Debug:', msg);
+          console.log("[STOMP] Debug:", msg);
         }
       },
       onConnect: () => {
-        console.log('✅ STOMP Connected');
+        console.log("✅ STOMP Connected");
         this.resubscribeAll(); // 재연결 시 이전 구독 목록 불러오기
         this.flushSubscriptionQueue(); // 연결이 되지 않은 상태에서 구독 요청이 들어온 경우 연결 시 구독 처리
       },
-      onStompError: (frame) => console.error('❌ STOMP Error:', frame),
+      onStompError: (frame) => console.error("❌ STOMP Error:", frame),
     });
 
     this.client.activate();
@@ -98,7 +99,7 @@ class SocketClient {
 
   public publish<T>(destination: string, body: T) {
     if (!this.client?.connected) {
-      console.error('❌ Cannot publish, client is not connected');
+      console.error("❌ Cannot publish, client is not connected");
       return;
     }
 
@@ -116,7 +117,7 @@ class SocketClient {
     this.subscriptions = {};
     this.subscriptionQueue = {};
 
-    console.log('🔴 STOMP Disconnected');
+    console.log("🔴 STOMP Disconnected");
   }
 
   private flushSubscriptionQueue() {

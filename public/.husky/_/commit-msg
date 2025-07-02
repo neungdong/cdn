@@ -1,0 +1,18 @@
+#!/bin/sh
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(head -n1 $COMMIT_MSG_FILE)
+
+# 최대 길이 체크 (100자)
+if [ ${#COMMIT_MSG} -gt 100 ]; then
+  echo "Error: Commit message header is too long (max 100 characters)"
+  exit 1
+fi
+
+# type 체크 (feat, fix, docs, style, refactor, test, chore)
+if ! echo "$COMMIT_MSG" | grep -qE "^(feat|fix|docs|style|refactor|test|chore):"; then
+  echo "Error: Commit message type must be one of feat, fix, docs, style, refactor, test, chore"
+  exit 1
+fi
+
+exit 0
