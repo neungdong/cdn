@@ -1,7 +1,6 @@
-
+import ChannelStreamingPlayer from "../components/ChannelStreamingPlayer";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ChannelStreamingPlayer from "../components/ChannelStreamingPlayer";
 
 interface Channel {
   id: string;
