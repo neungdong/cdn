@@ -1,7 +1,6 @@
-
+import ChannelStreamingPlayer from "../components/ChannelStreamingPlayer";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ChannelStreamingPlayer from "../components/ChannelStreamingPlayer";
 
 interface Channel {
   id: string;
@@ -15,7 +14,7 @@ const StreamingDemoPage: React.FC = () => {
 
   // 채널 리스트 불러오기
   const fetchChannels = () => {
-    axios.get("/api/channels").then((res) => {
+    axios.get("http://localhost:8080/api/channels").then((res) => {
       const mapped = res.data.map(
         (ch: { id: string | number; title: string; videoUrl: string }) => ({
           id: String(ch.id),
@@ -31,9 +30,8 @@ const StreamingDemoPage: React.FC = () => {
     fetchChannels();
   }, []);
 
-  // ✅ 테스트 채널 생성 버튼
   const createTestChannel = async () => {
-    await axios.post("/api/channels", {
+    await axios.post("http://localhost:8080/api/channels", {
       title: "테스트 채널",
       hostId: 1,
     });
